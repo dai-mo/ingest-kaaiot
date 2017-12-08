@@ -13,7 +13,6 @@
     - [Deployment](#deployment)
 - [Versioning](#versioning)
 - [Support](#support)
-- [Releases](#releases)
 - [Contributing](#contributing)
 - [Authors](#authors)
 - [License](#license)
@@ -29,7 +28,8 @@ This project consists of modules which form the bridge between the [KaaIoT Platf
 ## Features
 Please refer to the individual projects,
 * [org.dcs.iot.kaa]
-* [org.dcs.iot.kaa.client]
+* [org.dcs.iot.kaa.client]  
+
 for their specific features
 
 # Getting Started
@@ -96,10 +96,6 @@ We use [Semantic Versioning]. For the versions available, see the [tags on this 
 
 # Support
 Please [open an issue] for support.
-
-# Releases
-Include this library to your project by adding the following dependency to the sbt build,  
-`"org.dcs" % "org.dcs.commons" % "0.2.0"`
 
 # Contributing
 Please read [CONTRIBUTING.md] for details on our code of conduct, and the process for submitting pull requests to us.
