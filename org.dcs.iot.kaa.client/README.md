@@ -40,7 +40,9 @@ The automated setup of a blank KaaIoT Platform includes,
 
 
 To execute the setup run,  
-`sbt -DkaaCredentials=</path/to/DCS Kaa Credentials File> -DkaaConfigDir=</path/to/DCS Kaa Config Directory> "kaaiot-client/runMain org.dcs.iot.kaa.KaaIoTInitialiser"`  
+
+    $ sbt -DkaaCredentials=</path/to/DCS Kaa Credentials File> -DkaaConfigDir=</path/to/DCS Kaa Config Directory> "kaaiot-client/runMain org.dcs.iot.kaa.KaaIoTInitialiser"
+
 in the **root** directory of the _dcs_kaaiot_ project.
 
 ## IoT Device Simulation
@@ -52,7 +54,11 @@ To run this client,
  * Add an SDK Profile to the application 'Heartbeat Monitor' and generate / download the SDK as described [here](http://kaaproject.github.io/kaa/docs/v0.10.0/Programming-guide/Your-first-Kaa-application/#generate-sdk). :warning: This step needs to be performed whenever the KaaioT platform is initialised.
  * Create _lib_ directory in this project and copy the downloaded jar to this directory
  * Copy the _HeartbeatMonitorClient.scala_ file to the _src/main/scala/org/dcs/iot/kaa/client_ directory
- * Execute `sbt "kaaiot-client/runMain org.dcs.iot.kaa.client.HeartbeatMonitorClient"` in the **root** directory of the _dcs_kaaiot_ project.
+ * Execute 
+
+       $ sbt "kaaiot-client/runMain org.dcs.iot.kaa.client.HeartbeatMonitorClient"` 
+     
+     in the **root** directory of the _dcs_kaaiot_ project.
 
 # Main Dependencies
 The main dependencies of this project include,
