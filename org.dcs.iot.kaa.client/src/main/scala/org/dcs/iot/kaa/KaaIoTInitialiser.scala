@@ -62,7 +62,6 @@ class KaaIoTInitialiser {
   import KaaIoTInitialiser._
 
   def setupCredentials(): Future[Boolean] = {
-    object BaseClient extends JerseyRestClient with KaaApiConfig
 
     BaseClient.postAsJson(path = createKaaAdminPath,
       queryParams = List(

@@ -31,9 +31,10 @@ case class TenantCredentials(@BeanProperty name: String,
   def this() = this("", new UserCredentials(), new UserCredentials())
 }
 
-case class KaaCredentials(@BeanProperty admin: UserCredentials,
+case class KaaCredentials(@BeanProperty baseApiUrl: String,
+                          @BeanProperty admin: UserCredentials,
                           @BeanProperty tenant: TenantCredentials) {
-  def this() = this(new UserCredentials(), new TenantCredentials())
+  def this() = this("", new UserCredentials(), new TenantCredentials())
 }
 
 case class ApplicationSchemaConfig(@BeanProperty name: String,

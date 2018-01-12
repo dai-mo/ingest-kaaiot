@@ -125,9 +125,14 @@ object KaaIoTClient {
   val kaaClientConfig = KaaClientConfig()
   val credentials = kaaClientConfig.credentials
 
-  object KaaAdminClient extends JerseyRestClient with KaaApiConfig
-  object KaaTenantAdminClient extends JerseyRestClient with KaaApiConfig
-  object KaaTenantDevClient extends JerseyRestClient with KaaApiConfig
+  class KaaApi extends JerseyRestClient with KaaApiConfig {
+    override def baseUrl(): String = credentials.baseApiUrl
+  }
+
+  object BaseClient extends KaaApi
+  object KaaAdminClient extends KaaApi
+  object KaaTenantAdminClient extends KaaApi
+  object KaaTenantDevClient extends KaaApi
 
 
   KaaAdminClient.auth(credentials.admin.userName, credentials.admin.password)
