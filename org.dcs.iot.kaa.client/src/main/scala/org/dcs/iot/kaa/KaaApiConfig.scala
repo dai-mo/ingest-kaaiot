@@ -9,7 +9,6 @@ import org.dcs.commons.ws.ApiConfig
   * @constructor
   */
 trait KaaApiConfig extends ApiConfig {
-  override def baseUrl(): String = "http://dcs-kaaiot:9080/kaaAdmin/rest/api"
 
   override def error(status: Int, message: String): HttpErrorResponse = (status match {
       case 400 => ErrorConstants.DCS301
