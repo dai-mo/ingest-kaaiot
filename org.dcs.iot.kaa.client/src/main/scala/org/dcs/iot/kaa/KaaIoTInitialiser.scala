@@ -50,11 +50,16 @@ object KaaIoTInitialiser  extends KaaIoTClient {
       .flatMap(response => kaaIoTInitialiser.createApplications()),
       Duration.Inf)
 
-// FIXME: Creating SDK Profile does not seem to work
-//    Await.ready(applications()
-//      .map(_.find(_.name == "Heartbeat Monitor"))
-//      .flatMap(app => kaaIoTInitialiser.createSdkProfile("Default SDK", app.get.id, app.get.applicationToken)),
-//      Duration.Inf)
+    Await.ready(KaaIoTClient().applications()
+      .map {
+        apps =>
+          apps.map { app =>
+            KaaIoTInitialiser().createSdkProfile("", "Default SDK", app.id, app.applicationToken)
+          }
+      },
+      Duration.Inf)
+
+
   }
 }
 
@@ -171,11 +176,12 @@ class KaaIoTInitialiser {
   }
 
 
-  def createSdkProfile(name: String,
+  def createSdkProfile(id: String,
+                       name: String,
                        applicationId: String,
                        applicationToken: String): Future[SDKProfile] = {
     KaaTenantDevClient.postAsJson(path = createSdkProfilePath,
-      body = SDKProfile("", name, applicationId, applicationToken))
+      body = SDKProfile(id, name, applicationId, applicationToken, "2", "2", "1", "0"))
       .map(_.toObject[SDKProfile])
   }
 
