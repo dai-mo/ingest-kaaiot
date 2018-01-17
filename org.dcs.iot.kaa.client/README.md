@@ -30,6 +30,7 @@ This module / library requires the following configuration,
 
 
 # Usage
+**NOTE**: All scripts mentioned here must be executed in the **root** directory of the _dcs_kaaiot_ project. 
 ## Initialise KaaIoT Platform
 The automated setup of a blank KaaIoT Platform includes,
 * creation of DCS Superuser
@@ -41,9 +42,7 @@ The automated setup of a blank KaaIoT Platform includes,
 
 To execute the setup run,  
 
-    $ sbt -DkaaCredentials=</path/to/DCS Kaa Credentials File> -DkaaConfigDir=</path/to/DCS Kaa Config Directory> "kaaiot-client/runMain org.dcs.iot.kaa.KaaIoTInitialiser"
-
-in the **root** directory of the _dcs_kaaiot_ project.
+    $ scripts/kaa-init.sh
 
 ## IoT Device Simulation
 ### Heartbeat Demo
@@ -51,14 +50,12 @@ This client is inspired by the [Data Collection](http://kaaproject.github.io/kaa
 
 To run this client,
  * Login to the KaaIoT web application using dev user credentials (lookup the credential file used above)
- * Add an SDK Profile to the application 'Heartbeat Monitor' and generate / download the SDK as described [here](http://kaaproject.github.io/kaa/docs/v0.10.0/Programming-guide/Your-first-Kaa-application/#generate-sdk). :warning: This step needs to be performed whenever the KaaioT platform is initialised.
- * Create _lib_ directory in this project and copy the downloaded jar to this directory
- * Copy the _HeartbeatMonitorClient.scala_ file to the _src/main/scala/org/dcs/iot/kaa/client_ directory
+ * Download the JAVA SDK jar as described [here](http://kaaproject.github.io/kaa/docs/v0.10.0/Programming-guide/Your-first-Kaa-application/#generate-sdk). **NOTE**: This step needs to be performed whenever the KaaioT platform is initialised.
+ * Create _lib_ directory in this project if it does not exist and delete any existing jars in the directory 
+ * Copy the downloaded jar to this directory
  * Execute 
-
-       $ sbt "kaaiot-client/runMain org.dcs.iot.kaa.client.HeartbeatMonitorClient"` 
-     
-     in the **root** directory of the _dcs_kaaiot_ project.
+ 
+       $ scripts/kaa-client.sh hbt
 
 # Main Dependencies
 The main dependencies of this project include,
