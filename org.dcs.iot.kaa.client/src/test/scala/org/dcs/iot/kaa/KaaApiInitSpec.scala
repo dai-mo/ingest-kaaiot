@@ -7,6 +7,8 @@ import org.apache.avro.Schema
 import scala.concurrent.ExecutionContext.Implicits._
 import org.dcs.commons.serde.JsonSerializerImplicits._
 
+import scala.concurrent.Future
+
 /**
   * Tests the initialisation of the Kaa IoT Platform with DCS configuration.
   *
@@ -41,6 +43,27 @@ class KaaApiInitISpec extends KaaIoTClientUnitSpec {
       .futureValue
   }
 
+  "Creation of SDK Profile" must "be valid" taggedAs IT in {
+    val kaaClientConfig = KaaClientConfig()
+
+    val applicationConfig = kaaClientConfig.applicationsConfig
+    assert(applicationConfig.isDefined)
+
+    KaaIoTClient().applications()
+      .map {
+        apps =>
+          apps.map { app =>
+            KaaIoTInitialiser().createSdkProfile("default-sdk", "Default SDK1", app.id, app.applicationToken)
+          }
+      }
+      .futureValue
+  }
+
+  "Download of SDK" must "be valid" taggedAs IT in {
+    KaaIoTClient().downloadSdk("default-sdk", "JAVA")
+      .futureValue
+  }
+
   "Retrieval of Kaa IoT Platform Applications" must "be valid" taggedAs IT in {
     val kaaClientConfig = KaaClientConfig()
 
@@ -59,15 +82,15 @@ class KaaApiInitISpec extends KaaIoTClientUnitSpec {
     val applications = kaaIoTClient.applications().futureValue
 
     val nifiLogAppender = applications.find(app => app.name == HeartbeatMonitorApplicationName)
-        .map { app =>
-          kaaIoTClient.application(app.applicationToken)
-            .flatMap(app => kaaIoTClient.createLogAppender(app,
-              "Nifi S2S Appender",
-              "org.dcs.iot.kaa.NifiS2SAppender",
-              "Nifi S2S Appender",
-              NifiS2SConfig().toJson))
-            .futureValue
-        }
+      .map { app =>
+        kaaIoTClient.application(app.applicationToken)
+          .flatMap(app => kaaIoTClient.createLogAppender(app,
+            "Nifi S2S Appender",
+            "org.dcs.iot.kaa.NifiS2SAppender",
+            "Nifi S2S Appender",
+            NifiS2SConfig().toJson))
+          .futureValue
+      }
 
     assert(nifiLogAppender.isDefined)
 

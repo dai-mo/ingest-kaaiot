@@ -107,7 +107,16 @@ case class LogAppenderSettings(@BeanProperty id: String,
 case class SDKProfile(@BeanProperty id: String,
                       @BeanProperty name: String,
                       @BeanProperty applicationId: String,
-                      @BeanProperty applicationToken: String)
+                      @BeanProperty applicationToken: String,
+                      @BeanProperty configurationSchemaVersion: String,
+                      @BeanProperty logSchemaVersion:String,
+                      @BeanProperty notificationSchemaVersion: String,
+                      @BeanProperty profileSchemaVersion: String) {
+  def this() = this("", "", "", "","", "", "", "")
+}
+
+case class SDK(@BeanProperty sdkProfileId: String,
+               @BeanProperty targetPlatform: String)
 
 
 object KaaIoTClient {
@@ -122,8 +131,11 @@ object KaaIoTClient {
   def applicationLogSchemaPath(applicationToken: String): String = "/logSchemas/" + applicationToken
   val flatCtlSchemaPath: String = "/CTL/getFlatSchemaByCtlSchemaId"
 
+  val sdkPath= "/sdk"
+
   val kaaClientConfig = KaaClientConfig()
   val credentials = kaaClientConfig.credentials
+
 
   class KaaApi extends JerseyRestClient with KaaApiConfig {
     override def baseUrl(): String = credentials.baseApiUrl
@@ -158,7 +170,7 @@ class KaaIoTClient {
 
   def application(applicationToken: String): Future[Application] =
     KaaTenantDevClient.getAsJson(path = applicationTokenPath(applicationToken))
-    .map(_.toObject[Application])
+      .map(_.toObject[Application])
 
   def createLogAppender(application: Application, logAppender: LogAppenderConfig): Future[LogAppender] = {
     createLogAppender(application,
@@ -231,5 +243,17 @@ class KaaIoTClient {
   }
 
 
+  def downloadSdk(sdkProfileId: String, targetPlatform: String): Future[String] = {
+    KaaTenantDevClient.postAsJson(path = sdkPath,
+      queryParams = List(("sdkProfileId", sdkProfileId),("targetPlatform", targetPlatform))
+    )
+  }
 
+}
+
+object SDKDownloader {
+
+  def main(args: Array[String]): Unit = {
+    KaaIoTClient().downloadSdk("default-sdk", "JAVA")
+  }
 }
