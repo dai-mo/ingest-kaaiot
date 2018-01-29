@@ -183,3 +183,4 @@ generated
 key.private
 key.public
 state.properties
+*.log
