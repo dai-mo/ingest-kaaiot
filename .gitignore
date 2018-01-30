@@ -182,5 +182,5 @@ log
 generated
 key.private
 key.public
-state.properties
+state.properties*
 *.log
