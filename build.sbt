@@ -56,6 +56,12 @@ lazy val kaaiotClient =
       libraryDependencies ++= kaaClientDependencies
     )
 
+// FIXME: Workaround for https://github.com/sbt/sbt/issues/3670
+resolvers in ThisBuild ++= Seq(
+  ("Twitter Maven Repository" at "https://maven.twttr.com/")
+)
+
+
 // ------- Versioning , Release Section --------
 
 // Build Info
