@@ -5,12 +5,31 @@ import sbtbuildinfo.BuildInfoPlugin.autoImport._
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease._
 
+val license = Some(HeaderLicense.Custom(
+  """Copyright (c) 2017-2018 brewlabs SAS
+    |
+    |Licensed under the Apache License, Version 2.0 (the "License");
+    |you may not use this file except in compliance with the License.
+    |You may obtain a copy of the License at
+    |
+    |    http://www.apache.org/licenses/LICENSE-2.0
+    |
+    |Unless required by applicable law or agreed to in writing, software
+    |distributed under the License is distributed on an "AS IS" BASIS,
+    |WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    |See the License for the specific language governing permissions and
+    |limitations under the License.
+    |
+    |""".stripMargin
+))
+
 val projectName = "org.dcs.kaaiot.parent"
 
 lazy val dcskaaiot = (project in file(".")).
   settings(commonSettings: _*).
   settings(
-    name := projectName
+    name := projectName,
+    headerLicense := license
   ).aggregate( kaaiot, kaaiotClient)
 
 lazy val kaaProjectName = "org.dcs.iot.kaa"
@@ -22,7 +41,8 @@ lazy val kaaiot =
     settings(
       name := kaaProjectName,
       moduleName := kaaProjectName,
-      libraryDependencies ++= kaaDependencies
+      libraryDependencies ++= kaaDependencies,
+      headerLicense := license
     ).
     settings(resolvers += "Kaa IoT Repository" at "http://repository.kaaproject.org/repository/internal/").
     settings(resolvers += "Twitter Twttr Repository" at "http://maven.twttr.com/").
@@ -53,7 +73,8 @@ lazy val kaaiotClient =
     settings(
       name := kaaClientProjectName,
       moduleName := kaaClientProjectName,
-      libraryDependencies ++= kaaClientDependencies
+      libraryDependencies ++= kaaClientDependencies,
+      headerLicense := license
     )
 
 // FIXME: Workaround for https://github.com/sbt/sbt/issues/3670
